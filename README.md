@@ -100,7 +100,7 @@ The `transport` options correspond to [Nodemailer](http://www.nodemailer.com/doc
 Some possible deployement scenarios follow.
 
 ### Heroku
-[Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) uses git for deployments and supports NPM dependencies. Create a new project:
+[Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) uses git for deployments and supports NPM dependencies. Make sure to install their tools before continuing. Then, create a new project:
 
 ```bash
 mkdir server
@@ -109,6 +109,8 @@ cd server
 npm init
 npm install --save polaris
 ```
+
+Create the following files:
 
 ##### main.js
 ```javascript
@@ -142,10 +144,63 @@ heroku create
 git push heroku master
 ```
 
-## Development
-Feel free to fork and create pull requests. You should edit the `main.coffee` file since the `main.js` file is generated from it. Building the Javascript is easy:
+## Nodejitsu
+[Nodejitsu](https://www.nodejitsu.com/getting-started/) is a Node.js application hosting provider similar to Heroku. Make sure you have the `jitsu` command installed:
 
 ```bash
+sudo npm install -g jitsu
+```
+
+Create the new project:
+
+```bash
+mkdir server
+cd server
+
+npm init
+npm install --save polaris
+```
+
+Modify the `package.json` file to have a start script:
+
+```json
+...
+"scripts": {
+  "start": "node main.js"
+}
+...
+```
+
+Then, create the following file:
+
+##### main.js
+```javascript
+var polaris = require('polaris');
+
+polaris.config.recipients = {
+  test: {
+    to: ['test@gmail.com'],
+    title: 'Test title',
+    allowFiles: false
+  }
+};
+
+polaris.runServer();
+```
+
+Lastly, deploy using `jitsu`:
+
+```bash
+jitsu deploy
+```
+
+## Development
+Feel free to fork and create pull requests. You should edit the `main.coffee` file since the `main.js` file is generated from it. Getting the code and building the Javascript is easy:
+
+```bash
+git clone https://github.com/path/to/your/clone
+
+cd polaris
 npm run build
 ```
 
