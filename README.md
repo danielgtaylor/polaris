@@ -212,6 +212,26 @@ Lastly, deploy using `jitsu`:
 jitsu deploy
 ```
 
+### Digital Ocean / AWS / Rackspace
+Create a new virtual server using a recent Ubuntu image and do the following:
+
+```bash
+ssh user@yoursever
+
+# Install dependencies
+sudo apt-get install nodejs
+sudo npm install -g polaris
+
+# Create a config
+sudo touch /etc/polaris.json
+sudo vim /etc/polaris.json
+
+# Setup the Upstart script
+sudo cp /usr/lib/node_modules/polaris/polaris-upstart.conf /etc/init/polaris.conf
+
+sudo service polaris start
+```
+
 ## Development
 Feel free to fork and create pull requests. You should edit the `main.coffee` file since the `main.js` file is generated from it. Getting the code and building the Javascript is easy:
 
