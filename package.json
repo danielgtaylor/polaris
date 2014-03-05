@@ -1,14 +1,14 @@
 {
   "name": "polaris",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Static website tools like sending emails",
   "main": "main.js",
   "bin": {
     "polaris": "main.js"
   },
   "scripts": {
-    "build": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee",
-    "prepublish": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee",
+    "build": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee && echo '#!/usr/bin/env node\n' >tmp && cat main.js >>tmp && mv tmp main.js",
+    "prepublish": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee && echo '#!/usr/bin/env node\n' >tmp && cat main.js >>tmp && mv tmp main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Daniel G. Taylor",
