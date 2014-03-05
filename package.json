@@ -1,0 +1,22 @@
+{
+  "name": "polaris",
+  "version": "0.0.0",
+  "description": "Static website tools like sending emails",
+  "main": "main.js",
+  "bin": "",
+  "scripts": {
+    "build": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee",
+    "prepublish": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel G. Taylor",
+  "license": "MIT",
+  "dependencies": {
+    "formidable": "^1.0.14",
+    "nodemailer": "^0.6.1"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.7.1",
+    "coffeelint": "^1.1.0"
+  }
+}
