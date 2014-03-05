@@ -46,6 +46,24 @@ app.post('/email', polaris.handler);
 app.listen(3000);
 ```
 
+### Sending Emails
+You can use `curl` to send a test email:
+
+```bash
+curl -X POST http://localhost:8080/ -d recipient=test -d from=test@gmail.com -d title=Testing -d message=foo
+```
+
+The same request as an HTML form would look like:
+
+```html
+<form method="post" action="http://localhost:8080/">
+  <input type="hidden" name="recipient" value="test"/>
+  <input type="text" name="from" placeholder="Your email"/>
+  <input type="text" name="title" placeholder="Email title"/>
+  <textarea name="message" placeholder="Message"></textarea>
+</form>
+```
+
 ### Configuration
 Polaris is configured via a simple JSON file. An example looks like:
 
@@ -144,7 +162,7 @@ heroku create
 git push heroku master
 ```
 
-## Nodejitsu
+### Nodejitsu
 [Nodejitsu](https://www.nodejitsu.com/getting-started/) is a Node.js application hosting provider similar to Heroku. Make sure you have the `jitsu` command installed:
 
 ```bash
