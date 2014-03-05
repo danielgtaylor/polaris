@@ -3,7 +3,9 @@
   "version": "1.0.1",
   "description": "Static website tools like sending emails",
   "main": "main.js",
-  "bin": "",
+  "bin": {
+    "polaris": "main.js"
+  },
   "scripts": {
     "build": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee",
     "prepublish": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee",
