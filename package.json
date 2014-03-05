@@ -1,6 +1,6 @@
 {
   "name": "polaris",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Static website tools like sending emails",
   "main": "main.js",
   "bin": {
