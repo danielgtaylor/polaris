@@ -19,7 +19,7 @@
     recipients: {}
   };
 
-  smtp = createTransport(config.transport.name, config.transport.options);
+  smtp = null;
 
   exports.loadConfig = function(filename) {
     console.log("Loading config from " + filename + "...");
@@ -29,6 +29,9 @@
   exports.handler = function(req, res) {
     var form;
     form = new IncomingForm();
+    if (!smtp) {
+      smtp = createTransport(config.transport.name, config.transport.options);
+    }
     return form.parse(req, function(err, fields, files) {
       var attachments, f, options, recipient;
       recipient = config.recipients[fields.recipient];

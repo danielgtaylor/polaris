@@ -8,7 +8,7 @@ config = exports.config =
     transport: {name: 'Direct'}
     recipients: {}
 
-smtp = createTransport config.transport.name, config.transport.options
+smtp = null
 
 # Load config from a JSON file
 exports.loadConfig = (filename) ->
@@ -18,6 +18,9 @@ exports.loadConfig = (filename) ->
 # HTTP / Connect / Express request handler
 exports.handler = (req, res) ->
   form = new IncomingForm()
+
+  if not smtp
+    smtp = createTransport config.transport.name, config.transport.options
 
   form.parse req, (err, fields, files) ->
     # Get the recipient config
