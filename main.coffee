@@ -2,8 +2,11 @@
 {createTransport} = require 'nodemailer'
 
 http = require 'http'
+util = require 'util'
 
-config = exports.config =
+polaris = module.exports
+
+polaris.config =
     listen: {host: 'localhost', port: 8080}
     transport: {name: 'Direct'}
     recipients: {}
@@ -11,24 +14,33 @@ config = exports.config =
 smtp = null
 
 # Load config from a JSON file
-exports.loadConfig = (filename) ->
+polaris.loadConfig = (filename) ->
   console.log "Loading config from #{filename}..."
-  config = require filename
+  polaris.config = require filename
 
 # HTTP / Connect / Express request handler
-exports.handler = (req, res) ->
+polaris.handler = (req, res) ->
   form = new IncomingForm()
 
   if not smtp
-    smtp = createTransport config.transport.name, config.transport.options
+    transportConfig = polaris.config.transport
+    smtp = createTransport transportConfig.name, transportConfig.options
 
   form.parse req, (err, fields, files) ->
     # Get the recipient config
-    recipient = config.recipients[fields.recipient]
+    recipient = polaris.config.recipients[fields.recipient]
 
-    if not recipient
+    if not recipient or not fields.from or not fields.message
       res.writeHead 400, 'content-type': 'text/plain'
-      return res.end "Invalid recipient #{fields.recipient}"
+      return res.end "Bad recipient or missing required parameters:\n" +
+                     util.inspect fields
+
+    if fields.name
+      fields.from = "#{fields.name} <#{fields.from}>"
+
+    for field in ['phone', 'location']
+      if fields[field]
+        fields.message = "#{field}: #{fields[field]}\n\n#{fields.message}"
 
     # Send the mail
     console.log "#{fields.from} -> #{recipient.to}"
@@ -38,12 +50,14 @@ exports.handler = (req, res) ->
       from: fields.from
       replyTo: fields.from
       to: recipient.to
-      subject: fields.title or recipient.title
+      subject: fields.title or recipient.title or 'Email form'
+      text: fields.message
 
     # Only attach files if allowed
-    if recipient.allowFiles
-      attachments = (fileName: f.name, filePath: f.path for f in files)
-      options.attachments = attachments
+    if files and recipient.allowFiles
+      options.attachments = []
+      for name, file of files
+        options.attachments.push fileName: file.name, filePath: file.path
 
     # Send mail to recipients
     smtp.sendMail options, (err, response) ->
@@ -51,20 +65,28 @@ exports.handler = (req, res) ->
         res.writeHead 500, 'content-type': 'text/plain'
         return res.end err.toString()
 
-      res.writeHead 200, 'content-type': 'text/plain'
-      res.end 'Successfully sent email'
+      res.writeHead 302, location: recipient.redirect
+      res.end()
 
 # Create an HTTP server and listen for POST requests
-exports.runServer = ->
+polaris.runServer = (done) ->
   app = http.createServer (req, res) ->
-    if req.url is '/' and req.method.toLowerCase() is 'post'
-      exports.handler req, res
+    # Enable CORS
+    res.setHeader "Access-Control-Allow-Origin", "*"
+    res.setHeader "Access-Control-Allow-Headers", "X-Requested-With"
 
-  app.listen config.listen.port, config.listen.host, ->
-    console.log "Lisenting on #{config.listen.host}:#{config.listen.port}"
+    # Handle requests
+    if req.url is '/' and req.method.toLowerCase() is 'post'
+      polaris.handler req, res
+
+  listenConfig = polaris.config.listen
+  app.listen listenConfig.port, listenConfig.host, ->
+    console.log "Listening on #{polaris.config.listen.host}:" +
+                "#{polaris.config.listen.port}"
+    done? null, app
 
 if require.main is module
   if process.argv.length > 2
-    exports.loadConfig require('path').resolve(process.argv[2])
+    polaris.loadConfig require('path').resolve(process.argv[2])
 
-  exports.runServer()
+  polaris.runServer()

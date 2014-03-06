@@ -26,7 +26,8 @@ polaris.config.recipients = {
   test: {
     to: ['test@gmail.com'],
     title: 'Test title',
-    allowFiles: false
+    allowFiles: false,
+    redirect: 'http://example.com/success'
   }
 };
 
@@ -89,7 +90,8 @@ Polaris is configured via a simple JSON file. An example looks like:
     "test": {
       "to": ["test@gmail.com"],
       "title": "Email subject title",
-      "allowFiles": false
+      "allowFiles": false,
+      "redirect": "http://example.com/success"
     }
   }
 }
@@ -138,7 +140,8 @@ polaris.config.recipients = {
   test: {
     to: ['test@gmail.com'],
     title: 'Test title',
-    allowFiles: false
+    allowFiles: false,
+    redirect: 'http://example.com/success'
   }
 };
 
@@ -199,7 +202,8 @@ polaris.config.recipients = {
   test: {
     to: ['test@gmail.com'],
     title: 'Test title',
-    allowFiles: false
+    allowFiles: false,
+    redirect: 'http://example.com/success'
   }
 };
 

@@ -19,7 +19,8 @@
     "test": {
       "to": ["test@gmail.com"],
       "title": "Email subject title",
-      "allowFiles": false
+      "allowFiles": false,
+      "redirect": "http://www.example.com/success"
     }
   }
 }
