@@ -249,6 +249,10 @@ sudo vim /etc/polaris.json
 # Setup the Upstart script
 sudo cp /usr/lib/node_modules/polaris/polaris-upstart.conf /etc/init/polaris.conf
 
+sudo touch /var/log/polaris.log
+sudo chown www-data /var/log/polaris.log
+
+# Start the service
 sudo service polaris start
 ```
 
