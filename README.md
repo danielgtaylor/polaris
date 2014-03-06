@@ -1,4 +1,7 @@
 # Polaris
+
+[![Build Status](https://travis-ci.org/danielgtaylor/polaris.png?branch=master)](https://travis-ci.org/danielgtaylor/polaris) [![Dependency Status](https://david-dm.org/danielgtaylor/polaris.png)](https://david-dm.org/danielgtaylor/polaris)
+
 Lightweight backend utilities for static websites. Currently implements sending email to configured addresses from HTML forms with optional attachments. Feel free to fork and add more features.
 
 Point your static website toward the north star.
