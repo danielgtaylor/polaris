@@ -9,7 +9,8 @@
   "scripts": {
     "build": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee && echo '#!/usr/bin/env node\n' >tmp && cat main.js >>tmp && mv tmp main.js",
     "prepublish": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee && echo '#!/usr/bin/env node\n' >tmp && cat main.js >>tmp && mv tmp main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "node_modules/.bin/coffeelint main.coffee && node_modules/.bin/coffee -c main.coffee && echo '#!/usr/bin/env node\n' >tmp && cat main.js >>tmp && mv tmp main.js && node_modules/.bin/coffee -c test/polaris.coffee",
+    "test": "node_modules/.bin/mocha -R spec"
   },
   "author": "Daniel G. Taylor",
   "license": "MIT",
@@ -19,6 +20,9 @@
   },
   "devDependencies": {
     "coffee-script": "^1.7.1",
-    "coffeelint": "^1.1.0"
+    "coffeelint": "^1.1.0",
+    "sinon": "^1.9.0",
+    "mocha": "^1.17.1",
+    "supertest": "^0.9.0"
   }
 }
