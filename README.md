@@ -65,6 +65,19 @@ The same request as an HTML form would look like:
 </form>
 ```
 
+### Parameters
+The following parameters are available. Some are just shortcuts to adding information into the message body.
+
+| Name      | Required | Description                                      |
+| --------- | -------- | ------------------------------------------------ |
+| from      | &#10003; | The sender's email address                       |
+| location  |          | The sender's physical address (adds to message)  |
+| message   | &#10003; | The email body                                   |
+| name      |          | The sender's real name                           |
+| phone     |          | The sender's phone number (adds to message)      |
+| recipient | &#10003; | The recipient name from your `config.json` file. |
+| title     |          | The email title / subject                        |
+
 ### Configuration
 Polaris is configured via a simple JSON file. An example looks like:
 
